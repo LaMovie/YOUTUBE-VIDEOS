@@ -24,8 +24,9 @@ var GEN = [
   {logo: "🇵🇷", name: "SALSA", url: "https://u.pcloud.link/publink/show?code=kZU9Vr5Z0PpUG58HDAhP3dkXKdX9ep3fsegV"}, 
   {logo: "🫆", name: "TRAVEL", url: "https://u.pcloud.link/publink/show?code=kZ69Vr5ZLMkL01QGgjS0viJxsqq7lm1Mffs7"}, 
   {logo: "🔋", name: "ZERO", url: "https://u.pcloud.link/publink/show?code=kZbMVr5ZoqkKSadou24UJHRPi9TACBnCNwGy"}, 
-  {logo: "🎧", name: "MIX", url: "https://u.pcloud.link/publink/show?code=kZe45r5ZgWxWGMtxO5fT1Sxehpdz2SXuNfoV"}
- ];
+  {logo: "🎧", name: "MIX", url: "https://u.pcloud.link/publink/show?code=kZe45r5ZgWxWGMtxO5fT1Sxehpdz2SXuNfoV"}, 
+  {logo: "🎹", name: "BASSCITY", url: "https://u.pcloud.link/publink/show?code=kZvd5r5ZDwd6jpAzLNhAY7PHk5ggJ715O3G7"}
+];
  
  
     GEN.forEach(genero => {
