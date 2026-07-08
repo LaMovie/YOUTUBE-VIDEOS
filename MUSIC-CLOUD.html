@@ -3,16 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>👾 MUSIC CLOUD 👾</title>
-     <link rel="Stylesheet" href="Styles.css"/>
+  <title>🎵 MUSIC CLOUD 🎵</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lacquer&display=swap');
+body { 
+   margin: 0;
+   display: flex;
+   flex-direction: column;         
+   background: #000; 
+   font-family: 'Lacquer', cursive;   
+   color: #fff;
+   height: 100vh;
+   overflow: hidden;
+}
+header {
+   text-align: center;
+   padding: 10px 0;
+}
+p.title {
+   color: transparent;
+   background: linear-gradient(to right, red, blue);
+   background-clip: text;
+   -webkit-background-clip: text;
+   filter: saturate(110%);
+   font-size: 24px;
+   margin: 10px 0;
+}
+#I { 
+   color: gold; 
+   height: 40px;  
+   width: 80%;
+   max-width: 400px;
+   outline: none;
+   padding: 0 15px;   
+   background: #111; 
+   font-weight: bold; 
+   border-radius: 20px; 
+   border: 2px solid gray; 
+   box-shadow: 0px 0px 15px orange;    
+}
+.activo::placeholder { color: gray; }
+
+/* Contenedor Principal (Reemplaza al iframe) */
+#MainContent {
+   flex: 1;
+   overflow-y: auto;
+   padding: 10px;
+   padding-bottom: 90px; /* Espacio para el reproductor fijo */
+}
+
+/* Listas */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+.genre-item {
+    color: gold;
+    font-size: 22px;
+    padding: 12px;
+    cursor: pointer;
+    display: block;
+    border-bottom: 1px solid #333;
+}
+.genre-item:hover { color: #4f9; }
+
+.song-item {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+    text-align: left;
+}
+.song-item:hover { background: #111; color: #4f9; }
+.genre-badge { font-size: 11px; color: gray; }
+
+/* Reproductor Fijo Inferior */
+#PlayerBar {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   background: #111;
+   border-top: 2px solid #333;
+   padding: 10px 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   z-index: 100;
+}
+#NowPlayingInfo {
+   font-family: system-ui, -apple-system, sans-serif;
+   font-size: 14px;
+   color: #4f9;
+   margin-bottom: 5px;
+   width: 90%;
+   text-align: center;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+audio {
+   width: 90%;
+   height: 40px;
+   outline: none;
+}
+
+/* Botones de navegación */
+.btn-back {
+   background: #333;
+   color: white;
+   border: none;
+   padding: 8px 15px;
+   border-radius: 15px;
+   cursor: pointer;
+   font-weight: bold;
+   margin-bottom: 10px;
+   font-family: system-ui, sans-serif;
+}
+#VistaPlaylist { display: none; }
+#LoadingBox { text-align: center; display: none; padding: 20px; }
+</style>
 </head>
 <body>
+
 <header>
-    <p class="title" onclick="toggleSecret()">🎵 MUSIC CLOUD 🎵</p>
-    <div class="search-container">
-        <input id="I" placeholder="Buscar Género o Canción..." type="text"/>
-        <button id="BtnSync" onclick="removerCache()" title="Sincronizar música nueva">🔄</button>
-    </div>
+    <p class="title">🎵 MUSIC CLOUD 🎵</p>
+    <input id="I" placeholder="Buscar Género o Canción..." type="text"/>
 </header>
 
 <div id="MainContent">
@@ -21,9 +142,9 @@
     </div>
 
     <div id="VistaPlaylist">
-        <button class="btn-back" onclick="mostrarGeneros()">⬅ Volver</button>
-        <h2 id="TituloCarpeta" style="color: gold; margin-top: 0; font-size: 22px;"></h2>
-        <div id="ListaCanciones"></div> 
+        <button class="btn-back" onclick="mostrarGeneros()">⬅ Volver a Géneros</button>
+        <h2 id="TituloCarpeta" style="color: gold; margin-top: 0;"></h2>
+        <ul id="ListaCanciones"></ul>
     </div>
 
     <div id="VistaBusqueda" style="display: none;">
@@ -31,24 +152,244 @@
     </div>
 
     <div id="LoadingBox">
-        <span style="font-family:system-ui; color:gray;">Conectando a pCloud...</span>
+        <img src="Loading.gif" width="50" alt="Cargando..." />
     </div>
 </div>
 
 <div id="PlayerBar">
     <div id="NowPlayingInfo">Ninguna canción seleccionada</div>
-    
-    <div class="custom-controls">
-        <span id="TimeCurrent" class="time-display">0:00</span>
-        <input type="range" id="ProgressBar" value="0" step="1" min="0" onchange="seekAudio()">
-        <span id="TimeTotal" class="time-display">0:00</span>
-        <button id="BtnPlay" onclick="togglePlay()">▶️</button>
-    </div>
-    
-  <audio id="Player" autoplay></audio>
+    <audio id="Player" controls autoplay></audio>
 </div>
 
-<script src="data.js"></script>
-<script src="Script.js"></script>
+<script>
+var GEN = [
+  {logo: "🇦🇷", name: "CUMBIA", url: "https://u.pcloud.link/publink/show?code=kZffQi5ZEsuLReGBsT8rwldpwogE75rqbDRk"}, 
+  {logo: "🇵🇷", name: "PR CLASSIC", url: "https://u.pcloud.link/publink/show?code=kZCaQi5ZDJzh0KJ1zEFfTR1tNhTmDFD752J7"},
+  {logo: "🕺🏽", name: "CLASICOS", url: "https://u.pcloud.link/publink/show?code=kZl3Qi5ZLBoAC5btaVf3ITQR6AXm5QQlse4y"}, 
+  {logo: "🎹", name: "ALL IN BASS", url: "https://u.pcloud.link/publink/show?code=kZt3Qi5ZMUlbR4jtUsVYotr2hj5yqb7qzFFy"}, 
+  {logo: "🇯🇲", name: "BASS HALL", url: "https://u.pcloud.link/publink/show?code=kZkGQi5ZSVivAi8p8wuHFC3gb72v3p1mtTrk"}, 
+  {logo: "🍹", name: "COCTELITO", url: "https://u.pcloud.link/publink/show?code=kZa4xi5Z7jyPy9hnXQ0A28uvaT2250Jl7Rzk"}, 
+  {logo: "🇨🇺", name: "CUBATON", url: "https://u.pcloud.link/publink/show?code=kZMLxi5ZHSXXOOv2a8R5iCnUuvbqJ8F5qvu7"}, 
+  {logo: "💜", name: "DEL ALMA", url: "https://u.pcloud.link/publink/show?code=kZuIKi5ZYLRmfLRVkg52VKuXc8j4QhYQKYbk"}, 
+  {logo: "💓", name: "DEL ALMA 2", url: "https://u.pcloud.link/publink/show?code=kZsEKi5Z9yFV4rXnm2RK3dygCryPb4SLsVgV"}, 
+  {logo: "🪩", name: "DISCO RETRO", url: "https://u.pcloud.link/publink/show?code=kZkzli5ZIQM6s3GNez59e7zA0TXez0usnWc7"}, 
+  {logo: "🏴‍☠️", name: "DRUM & BASS", url: "https://u.pcloud.link/publink/show?code=kZ0Fli5ZzfFktkCNfay6hvCGE6pdg55tYPny"}, 
+  {logo: "🎭", name: "FREAK", url: "https://u.pcloud.link/publink/show?code=kZtJdi5Zo6p7IEedgULnk9vnfpT7xHjMVy00"}, 
+  {logo: "🖕🏽", name: "FUCK U", url: "https://u.pcloud.link/publink/show?code=kZn0di5ZootYjfkvHSQPEdKb2NfqckJe0WTX"}, 
+  {logo: "🇯🇲", name: "GANJA MUSIC", url: "https://u.pcloud.link/publink/show?code=kZesdi5Z1n9a6KznqgbG9p94WfYC1HjaYBFV"}, 
+  {logo: "👅", name: "GOUSE HOUSE", url: "https://u.pcloud.link/publink/show?code=kZqDVr5Zo9jjxlSXCi7fVB75O9EXEkm6B4ty"}, 
+  {logo: "🇨🇺", name: "MADE IN CUBA", url: "https://u.pcloud.link/publink/show?code=kZKDVr5Z2A051YliNP5KwI3MtnwY7kKXqJ9X"}, 
+  {logo: "😈", name: "MALIANTEO", url: "https://u.pcloud.link/publink/show?code=kZteVr5ZbJ4bl8yc9guTnbU0Qo1kCfnxQBQk"}, 
+  {logo: "🇦🇱", name: "MOOMBA VS TRAP", url: "https://u.pcloud.link/publink/show?code=kZxeVr5ZlN3DTmcatbR9ffgzproPxLH7JX47"}, 
+  {logo: "🇧🇷", name: "OI BRASIL", url: "https://u.pcloud.link/publink/show?code=kZH9Vr5ZyEfPcCJjgebVuFVTx7CNmRMaxCNV"}, 
+  {logo: "🇵🇷", name: "PR DELUXE", url: "https://u.pcloud.link/publink/show?code=kZF9Vr5Z2CH6a0qvPEyzeRiOUAArEQh745EV"}, 
+  {logo: "🇵🇷", name: "REGAETON", url: "https://u.pcloud.link/publink/show?code=kZ19Vr5Z3mx3lG76nmYsGj1I3MP1rztwPbMV"}, 
+  {logo: "🇻🇪", name: "SALSA MIX", url: "https://u.pcloud.link/publink/show?code=kZD9Vr5ZN9gGwnGUJahozq7QIBHAvuDAqzHk"}, 
+  {logo: "🇵🇷", name: "SALSA", url: "https://u.pcloud.link/publink/show?code=kZU9Vr5Z0PpUG58HDAhP3dkXKdX9ep3fsegV"}, 
+  {logo: "🫆", name: "TRAVEL", url: "https://u.pcloud.link/publink/show?code=kZ69Vr5ZLMkL01QGgjS0viJxsqq7lm1Mffs7"}, 
+  {logo: "🔋", name: "ZERO", url: "https://u.pcloud.link/publink/show?code=kZbMVr5ZoqkKSadou24UJHRPi9TACBnCNwGy"}, 
+  {logo: "🎧", name: "MIX", url: "https://u.pcloud.link/publink/show?code=kZe45r5ZgWxWGMtxO5fT1Sxehpdz2SXuNfoV"}, 
+  {logo: "🎹", name: "BASSCITY", url: "https://u.pcloud.link/publink/show?code=kZvd5r5ZDwd6jpAzLNhAY7PHk5ggJ715O3G7"}
+];
+
+// Variables de Estado del Reproductor
+let playlistActual = [];
+let indiceActual = 0;
+let codigoCarpetaActual = "";
+
+// Elementos del DOM
+const Reproductor = document.getElementById("Player");
+const InfoCancion = document.getElementById("NowPlayingInfo");
+const I = document.getElementById("I");
+const ListaGeneros = document.getElementById("Lista");
+const ListaCancionesContenedor = document.getElementById("ListaCanciones");
+const VistaGeneros = document.getElementById("VistaGeneros");
+const VistaPlaylist = document.getElementById("VistaPlaylist");
+const VistaBusqueda = document.getElementById("VistaBusqueda");
+const ListaBusqueda = document.getElementById("ListaBusqueda");
+const TituloCarpeta = document.getElementById("TituloCarpeta");
+const LoadingBox = document.getElementById("LoadingBox");
+
+// 1. Inicializar la lista principal
+function inicializarApp() {
+    ListaGeneros.innerHTML = "";
+    GEN.forEach((genero, i) => {
+        let li = document.createElement('li');
+        li.className = "genre-item";
+        li.innerHTML = `${genero.logo} ${genero.name}`;
+        li.onclick = () => abrirCarpeta(i);
+        ListaGeneros.appendChild(li);  
+    });
+    indexarCanciones();
+}
+
+
+// 2. Indexación en segundo plano (Extrae Code y FileID)
+async function indexarCanciones() {
+    // 1. Intentamos leer si ya tenemos las canciones guardadas en la memoria del navegador
+    let cache = localStorage.getItem("music_cloud_cache");
+    
+    if (cache) {
+        // ¡Perfecto! Ya las teníamos guardadas. Las cargamos sin llamar a pCloud
+        GEN = JSON.parse(cache);
+        console.log("⚡ Datos cargados al instante desde la memoria local (LocalStorage).");
+        return; 
+    }
+
+    // 2. Si no había memoria (es la primera vez que abre la app), consultamos a pCloud
+    console.log("🔄 Memoria vacía. Indexando desde la API de pCloud...");
+    
+    for (let genero of GEN) {
+        try {
+            let urlObj = new URL(genero.url);
+            let code = urlObj.searchParams.get('code');
+            if (!code) continue;
+
+            genero.code = code;
+            let response = await fetch(`https://api.pcloud.com/showpublink?code=${code}`);
+            let data = await response.json();
+            
+            if (data.metadata && data.metadata.contents) {
+                genero.canciones = data.metadata.contents
+                    .filter(f => !f.issubdir)
+                    .map(archivo => ({ name: archivo.name, id: archivo.fileid }));
+            }
+        } catch (err) {
+            console.error("Error indexando: " + genero.name, err);
+        }
+    }
+
+    // 3. ¡Guardamos el resultado en la memoria para que la próxima vez sea instantáneo!
+    localStorage.setItem("music_cloud_cache", JSON.stringify(GEN));
+    console.log("💾 Indexación completada y guardada en memoria local.");
+}
+
+
+
+// 3. Navegación de Vistas
+function mostrarGeneros() {
+    VistaGeneros.style.display = "block";
+    VistaPlaylist.style.display = "none";
+    VistaBusqueda.style.display = "none";
+    I.value = "";
+}
+
+// 4. Abrir una Carpeta (Construye la Playlist Local)
+function abrirCarpeta(indexGenero) {
+    let genero = GEN[indexGenero];
+    if (!genero.canciones) {
+        alert("Cargando las canciones de esta carpeta, intenta en un segundo...");
+        return;
+    }
+
+    VistaGeneros.style.display = "none";
+    VistaBusqueda.style.display = "none";
+    VistaPlaylist.style.display = "block";
+    TituloCarpeta.innerText = `${genero.logo} ${genero.name}`;
+    
+    // Configurar la cola de reproducción actual
+    playlistActual = genero.canciones;
+    codigoCarpetaActual = genero.code;
+
+    // Renderizar la lista de la carpeta
+    ListaCancionesContenedor.innerHTML = "";
+    genero.canciones.forEach((cancion, i) => {
+        let li = document.createElement('li');
+        li.className = "song-item";
+        li.innerHTML = `<span>🎵 ${cancion.name}</span>`;
+        // Al hacer click, reproduce e indica su posición (index) en la cola
+        li.onclick = () => reproducirCancion(codigoCarpetaActual, cancion, i);
+        ListaCancionesContenedor.appendChild(li);
+    });
+}
+
+// 5. Motor de Reproducción Nativo (Fetch Directo + AutoPlay Next)
+async function reproducirCancion(code, cancion, index) {
+    LoadingBox.style.display = "block";
+    InfoCancion.innerText = "Cargando audio...";
+    
+    try {
+        let res = await fetch(`https://api.pcloud.com/getpublinkdownload?code=${code}&fileid=${cancion.id}`);
+        let data = await res.json();
+        
+        if (data.result === 0) {
+            let streamUrl = "https://" + data.hosts[0] + data.path;
+            Reproductor.src = streamUrl;
+            Reproductor.play();
+            
+            InfoCancion.innerText = `Reproduciendo: ${cancion.name}`;
+            indiceActual = index; // Guardamos en qué canción vamos
+        } else {
+            InfoCancion.innerText = "Error al cargar la canción";
+        }
+    } catch (e) {
+        console.error("Error en reproducción:", e);
+        InfoCancion.innerText = "Error de conexión";
+    }
+    LoadingBox.style.display = "none";
+}
+
+// ✨ LA MAGIA DE LA REPRODUCCIÓN CONTINUA ✨
+Reproductor.addEventListener('ended', () => {
+    // Si la canción actual termina y hay una siguiente en la lista actual
+    if (playlistActual && indiceActual < playlistActual.length - 1) {
+        let siguienteIndex = indiceActual + 1;
+        let siguienteCancion = playlistActual[siguienteIndex];
+        reproducirCancion(codigoCarpetaActual, siguienteCancion, siguienteIndex);
+    } else {
+        InfoCancion.innerText = "Lista finalizada";
+    }
+});
+
+// 6. Buscador Avanzado (Actualizado para el nuevo diseño)
+I.oninput = (e) => {
+    var In = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+   
+    if (In === "") {
+        mostrarGeneros();
+        return;
+    }
+
+    VistaGeneros.style.display = "none";
+    VistaPlaylist.style.display = "none";
+    VistaBusqueda.style.display = "block";
+    ListaBusqueda.innerHTML = "";
+
+    GEN.forEach((genero, i) => {
+        let nombreGenero = genero.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        
+        if (nombreGenero.includes(In)) {
+            let li = document.createElement('li');
+            li.className = "genre-item";
+            li.innerHTML = `${genero.logo} ${genero.name}`;
+            li.onclick = () => abrirCarpeta(i);
+            ListaBusqueda.appendChild(li);
+        }
+
+        if (genero.canciones) {
+            genero.canciones.forEach((cancion, songIndex) => {
+                let nombreCancion = cancion.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                
+                if (nombreCancion.includes(In)) {
+                    let li = document.createElement('li');
+                    li.className = "song-item";
+                    li.innerHTML = `<span>🎵 ${cancion.name}</span> <span class="genre-badge">${genero.name}</span>`;
+                    
+                    li.onclick = () => {
+                        // Si busca una canción suelta, seteamos la playlist entera de su género para que siga sonando la siguiente
+                        playlistActual = genero.canciones;
+                        codigoCarpetaActual = genero.code;
+                        reproducirCancion(genero.code, cancion, songIndex);
+                    };
+                    ListaBusqueda.appendChild(li);
+                }
+            });
+        }
+    });
+};   
+
+// Arrancar la app
+inicializarApp();
+</script>
 </body>
 </html>
