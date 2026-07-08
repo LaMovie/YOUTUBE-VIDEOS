@@ -3,33 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎵 MUSIC CLOUD 🎵</title>
+  <title>👾 MUSIC CLOUD 👾</title>
      <link rel="Stylesheet" href="Styles.css"/>
 </head>
 <body>
-<center> 
-    <p>🎵 MUSIC CLOUD 🎵</p><br/>
-         <input id="I" placeholder="Buscar Género..." type="text"/>      
-    
-       <div id="BOX">
-     <ul id="Lista"></ul>
-     </div>
-     
-    <iframe id="F" src="" frameborder="0" allowfullscreen="true" allow="encrypted-media"></iframe>
-    <img id="No" src="https://bit.ly/3y2BVCO"/>
-</center>
+<header>
+    <p class="title" onclick="toggleSecret()">🎵 MUSIC CLOUD 🎵</p>
+    <div class="search-container">
+        <input id="I" placeholder="Buscar Género o Canción..." type="text"/>
+        <button id="BtnSync" onclick="removerCache()" title="Sincronizar música nueva">🔄</button>
+    </div>
+</header>
 
- <script src="Script.js"></script>
+<div id="MainContent">
+    <div id="VistaGeneros">
+        <ul id="Lista"></ul>
+    </div>
+
+    <div id="VistaPlaylist">
+        <button class="btn-back" onclick="mostrarGeneros()">⬅ Volver</button>
+        <h2 id="TituloCarpeta" style="color: gold; margin-top: 0; font-size: 22px;"></h2>
+        <div id="ListaCanciones"></div> 
+    </div>
+
+    <div id="VistaBusqueda" style="display: none;">
+        <ul id="ListaBusqueda"></ul>
+    </div>
+
+    <div id="LoadingBox">
+        <span style="font-family:system-ui; color:gray;">Conectando a pCloud...</span>
+    </div>
+</div>
+
+<div id="PlayerBar">
+    <div id="NowPlayingInfo">Ninguna canción seleccionada</div>
+    
+    <div class="custom-controls">
+        <span id="TimeCurrent" class="time-display">0:00</span>
+        <input type="range" id="ProgressBar" value="0" step="1" min="0" onchange="seekAudio()">
+        <span id="TimeTotal" class="time-display">0:00</span>
+        <button id="BtnPlay" onclick="togglePlay()">▶️</button>
+    </div>
+    
+  <audio id="Player" autoplay></audio>
+</div>
+
+<script src="Script.js"></script>
+<script src="data.js"></script>
 </body>
 </html>
-
-
-  
-  
-
-
-
-
-
-
-

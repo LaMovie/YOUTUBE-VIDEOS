@@ -1,114 +1,246 @@
-var GEN = [
-  {logo: "🇦🇷", name: "CUMBIA", url: "https://u.pcloud.link/publink/show?code=kZffQi5ZEsuLReGBsT8rwldpwogE75rqbDRk"}, 
-  {logo: "🇵🇷", name: "PR CLASSIC", url: "https://u.pcloud.link/publink/show?code=kZCaQi5ZDJzh0KJ1zEFfTR1tNhTmDFD752J7"},
-  {logo: "🕺🏽", name: "CLASICOS", url: "https://u.pcloud.link/publink/show?code=kZl3Qi5ZLBoAC5btaVf3ITQR6AXm5QQlse4y"}, 
-  {logo: "🎹", name: "ALL IN BASS", url: "https://u.pcloud.link/publink/show?code=kZt3Qi5ZMUlbR4jtUsVYotr2hj5yqb7qzFFy"}, 
-  {logo: "🇯🇲", name: "BASS HALL", url: "https://u.pcloud.link/publink/show?code=kZkGQi5ZSVivAi8p8wuHFC3gb72v3p1mtTrk"}, 
-  {logo: "🍹", name: "COCTELITO", url: "https://u.pcloud.link/publink/show?code=kZa4xi5Z7jyPy9hnXQ0A28uvaT2250Jl7Rzk"}, 
-  {logo: "🇨🇺", name: "CUBATON", url: "https://u.pcloud.link/publink/show?code=kZMLxi5ZHSXXOOv2a8R5iCnUuvbqJ8F5qvu7"}, 
-  {logo: "💜", name: "DEL ALMA", url: "https://u.pcloud.link/publink/show?code=kZuIKi5ZYLRmfLRVkg52VKuXc8j4QhYQKYbk"}, 
-  {logo: "💓", name: "DEL ALMA 2", url: "https://u.pcloud.link/publink/show?code=kZsEKi5Z9yFV4rXnm2RK3dygCryPb4SLsVgV"}, 
-  {logo: "🪩", name: "DISCO RETRO", url: "https://u.pcloud.link/publink/show?code=kZkzli5ZIQM6s3GNez59e7zA0TXez0usnWc7"}, 
-  {logo: "🏴‍☠️", name: "DRUM & BASS", url: "https://u.pcloud.link/publink/show?code=kZ0Fli5ZzfFktkCNfay6hvCGE6pdg55tYPny"}, 
-  {logo: "🎭", name: "FREAK", url: "https://u.pcloud.link/publink/show?code=kZtJdi5Zo6p7IEedgULnk9vnfpT7xHjMVy00"}, 
-  {logo: "🖕🏽", name: "FUCK U", url: "https://u.pcloud.link/publink/show?code=kZn0di5ZootYjfkvHSQPEdKb2NfqckJe0WTX"}, 
-  {logo: "🇯🇲", name: "GANJA MUSIC", url: "https://u.pcloud.link/publink/show?code=kZesdi5Z1n9a6KznqgbG9p94WfYC1HjaYBFV"}, 
-  {logo: "👅", name: "GOUSE HOUSE", url: "https://u.pcloud.link/publink/show?code=kZqDVr5Zo9jjxlSXCi7fVB75O9EXEkm6B4ty"}, 
-  {logo: "🇨🇺", name: "MADE IN CUBA", url: "https://u.pcloud.link/publink/show?code=kZKDVr5Z2A051YliNP5KwI3MtnwY7kKXqJ9X"}, 
-  {logo: "😈", name: "MALIANTEO", url: "https://u.pcloud.link/publink/show?code=kZteVr5ZbJ4bl8yc9guTnbU0Qo1kCfnxQBQk"}, 
-  {logo: "🇦🇱", name: "MOOMBA VS TRAP", url: "https://u.pcloud.link/publink/show?code=kZxeVr5ZlN3DTmcatbR9ffgzproPxLH7JX47"}, 
-  {logo: "🇧🇷", name: "OI BRASIL", url: "https://u.pcloud.link/publink/show?code=kZH9Vr5ZyEfPcCJjgebVuFVTx7CNmRMaxCNV"}, 
-  {logo: "🇵🇷", name: "PR DELUXE", url: "https://u.pcloud.link/publink/show?code=kZF9Vr5Z2CH6a0qvPEyzeRiOUAArEQh745EV"}, 
-  {logo: "🇵🇷", name: "REGAETON", url: "https://u.pcloud.link/publink/show?code=kZ19Vr5Z3mx3lG76nmYsGj1I3MP1rztwPbMV"}, 
-  {logo: "🇻🇪", name: "SALSA MIX", url: "https://u.pcloud.link/publink/show?code=kZD9Vr5ZN9gGwnGUJahozq7QIBHAvuDAqzHk"}, 
-  {logo: "🇵🇷", name: "SALSA", url: "https://u.pcloud.link/publink/show?code=kZU9Vr5Z0PpUG58HDAhP3dkXKdX9ep3fsegV"}, 
-  {logo: "🫆", name: "TRAVEL", url: "https://u.pcloud.link/publink/show?code=kZ69Vr5ZLMkL01QGgjS0viJxsqq7lm1Mffs7"}, 
-  {logo: "🔋", name: "ZERO", url: "https://u.pcloud.link/publink/show?code=kZbMVr5ZoqkKSadou24UJHRPi9TACBnCNwGy"}, 
-  {logo: "🎧", name: "MIX", url: "https://u.pcloud.link/publink/show?code=kZe45r5ZgWxWGMtxO5fT1Sxehpdz2SXuNfoV"}, 
-  {logo: "🎹", name: "BASSCITY", url: "https://u.pcloud.link/publink/show?code=kZvd5r5ZDwd6jpAzLNhAY7PHk5ggJ715O3G7"}
-];
- 
- 
-    GEN.forEach(genero => {
-       let li = document.createElement('li');
-    li.innerHTML = `<a class="DATA" data-url="${genero.url}" title="${genero.name}">${genero.logo} ${genero.name}</a>`;
-    Lista.appendChild(li);  
- });
-        
-                
-      <!-- FILTRADO -->
-   I.oninput = (e) => {
-       var In = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      
-       if (In === "") {
-   BOX.style.display = "none";
-    F.style.display = "block";
-    No.style.display = "none";
-          return;
-  }
+let playlistActual = [];
+let indiceActual = 0;
+let codigoCarpetaActual = "";
 
-      let foundMatch = false;
-       document.querySelectorAll('.DATA').forEach(dat => {
-          if (dat.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(In)) {
-             dat.classList.remove('Filtro');
-     foundMatch = true;
-          } else {
-             dat.classList.add('Filtro'); 
-       }
-    });
-       
-    No.style.display = foundMatch ? "none" : "block";
-  BOX.style.display = foundMatch ? "block" : "";
-    F.style.display = "none";   
- };   
+// Elementos del DOM
+const Reproductor = document.getElementById("Player");
+const InfoCancion = document.getElementById("NowPlayingInfo");
+const I = document.getElementById("I");
+const ListaGeneros = document.getElementById("Lista");
+const ListaCancionesContenedor = document.getElementById("ListaCanciones");
+const VistaGeneros = document.getElementById("VistaGeneros");
+const VistaPlaylist = document.getElementById("VistaPlaylist");
+const VistaBusqueda = document.getElementById("VistaBusqueda");
+const ListaBusqueda = document.getElementById("ListaBusqueda");
+const TituloCarpeta = document.getElementById("TituloCarpeta");
+const LoadingBox = document.getElementById("LoadingBox");
+const BtnSync = document.getElementById("BtnSync");
 
+// Elementos del Reproductor Customizado
+const BtnPlay = document.getElementById("BtnPlay");
+const ProgressBar = document.getElementById("ProgressBar");
+const TimeCurrent = document.getElementById("TimeCurrent");
+const TimeTotal = document.getElementById("TimeTotal");
 
-    <!-- Manejo Del Enter -->
-  document.onkeyup = (e) => {
-    if (e.key === "Enter") {
-      var In = e.target.value.toLowerCase().trim();
-      var match = [...document.querySelectorAll(".DATA")].find(item => item.getAttribute('title').toLowerCase().trim() === In);
-
-      if (match) {
-        var URL = match.getAttribute('data-url');
-   F.style.display = "block";
-        F.src = URL;
-        I.value = "";
-  BOX.style.display = "none";
- I.placeholder = match.textContent;
-     I.classList.add('activo');
-     F.style.background = 'url(Loading.gif)';
-  F.style.backgroundSize = '70%';
-  F.style.backgroundPosition = '50% 60%';
-  F.style.backgroundRepeat = 'no-repeat';
-    setTimeout(() => {
-       F.style.background = '';
-  }, 1500); 
-         } else {
-          I.value = '';
-  BOX.style.display = 'none'; 
-      }
+// ✨ FUNCIÓN SECRETA ✨
+function toggleSecret() {
+    if (BtnSync.style.display === "none" || BtnSync.style.display === "") {
+        BtnSync.style.display = "flex";
+    } else {
+        BtnSync.style.display = "none";
     }
- };
-   
-    <!-- Manejo Del Click -->
-   Lista.onclick = (e) => {    
-    if (e.target.matches('.DATA')) {
-        var Enlace = e.target.getAttribute('data-url');
- var Titulo = e.target.textContent;
-        
-    F.style.display = "block";
-        F.src = Enlace;
-        I.value = "";
-     BOX.style.display = "none";
-        I.placeholder = Titulo;
-        I.classList.add('activo'); 
-        F.style.background = 'url(Loading.gif)';
-        F.style.backgroundSize = '70%';
-        F.style.backgroundPosition = '50% 60%';
-        F.style.backgroundRepeat = 'no-repeat';
-    setTimeout(() => {
-       F.style.background = '';
-  }, 1500); 
-     }
- };
+}
+
+// 1. Mostrar Cuadrícula Base
+function mostrarGenerosBase() {
+    ListaGeneros.innerHTML = "";
+    GEN.forEach((genero, i) => {
+        let li = document.createElement('li');
+        li.className = "genre-card"; 
+        li.onclick = () => abrirCarpeta(i);
+        li.innerHTML = `
+            <div class="genre-emoji">${genero.logo}</div>
+            <div class="genre-name">${genero.name}</div>
+        `;
+        ListaGeneros.appendChild(li);  
+    });
+}
+
+// 2. Indexación Inteligente con LocalStorage
+async function indexarCanciones() {
+    let cache = localStorage.getItem("music_cloud_cache");
+    if (cache) {
+        GEN = JSON.parse(cache);
+        mostrarGenerosBase();
+        return; 
+    }
+
+    for (let genero of GEN) {
+        try {
+            let urlObj = new URL(genero.url);
+            let code = urlObj.searchParams.get('code');
+            if (!code) continue;
+            genero.code = code;
+
+            let response = await fetch(`https://api.pcloud.com/showpublink?code=${code}`);
+            let data = await response.json();
+            if (data.metadata && data.metadata.contents) {
+                genero.canciones = data.metadata.contents
+                    .filter(f => !f.issubdir)
+                    .map(archivo => ({ name: archivo.name, id: archivo.fileid }));
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    localStorage.setItem("music_cloud_cache", JSON.stringify(GEN));
+    mostrarGenerosBase();
+}
+
+function removerCache() {
+    if(confirm("¿Quieres buscar canciones nuevas en pCloud? Esto recargará tu biblioteca.")) {
+        localStorage.removeItem("music_cloud_cache");
+        location.reload(); 
+    }
+}
+
+function mostrarGeneros() {
+    VistaGeneros.style.display = "block";
+    VistaPlaylist.style.display = "none";
+    VistaBusqueda.style.display = "none";
+    I.value = "";
+}
+
+function abrirCarpeta(indexGenero) {
+    let genero = GEN[indexGenero];
+    if (!genero.canciones) {
+        alert("Indexando datos, aguarda un segundo...");
+        return;
+    }
+
+    VistaGeneros.style.display = "none";
+    VistaBusqueda.style.display = "none";
+    VistaPlaylist.style.display = "block";
+    TituloCarpeta.innerText = `${genero.logo} ${genero.name}`;
+    
+    playlistActual = genero.canciones;
+    codigoCarpetaActual = genero.code;
+
+    ListaCancionesContenedor.innerHTML = "";
+    genero.canciones.forEach((cancion, i) => {
+        let div = document.createElement('div');
+        div.className = "song-item";
+        div.setAttribute("data-id", cancion.id); // Identificador para el Fucsia
+        div.innerHTML = `<span class="song-title">🎵 ${cancion.name}</span>`;
+        div.onclick = () => reproducirCancion(codigoCarpetaActual, cancion, i);
+        ListaCancionesContenedor.appendChild(div);
+    });
+}
+
+// ✨ APLICAR COLOR FUCSIA A LA CANCIÓN ACTIVA ✨
+function marcarCancionActiva(idCancion) {
+    // Le quitamos la clase a todas las canciones renderizadas
+    document.querySelectorAll('.song-item').forEach(el => {
+        el.classList.remove('active-song');
+    });
+    // Se la ponemos solo a la que tenga el ID correcto
+    let cancionActiva = document.querySelector(`.song-item[data-id="${idCancion}"]`);
+    if(cancionActiva) {
+        cancionActiva.classList.add('active-song');
+        // Hacemos scroll suave para que la canción seleccionada esté visible
+        cancionActiva.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+}
+
+async function reproducirCancion(code, cancion, index) {
+    LoadingBox.style.display = "block";
+    InfoCancion.innerText = "Conectando stream...";
+    
+    // Cambiamos el color visualmente de inmediato
+    marcarCancionActiva(cancion.id);
+
+    try {
+        let res = await fetch(`https://api.pcloud.com/getpublinkdownload?code=${code}&fileid=${cancion.id}`);
+        let data = await res.json();
+        if (data.result === 0) {
+            Reproductor.src = "https://" + data.hosts[0] + data.path;
+            Reproductor.play();
+            InfoCancion.innerText = cancion.name;
+            indiceActual = index;
+        }
+    } catch (e) {
+        InfoCancion.innerText = "Error de enlace";
+    }
+    LoadingBox.style.display = "none";
+}
+
+// Salto automático a la siguiente canción
+Reproductor.addEventListener('ended', () => {
+    if (playlistActual && indiceActual < playlistActual.length - 1) {
+        let siguienteIndex = indiceActual + 1;
+        reproducirCancion(codigoCarpetaActual, playlistActual[siguienteIndex], siguienteIndex);
+    } else {
+        InfoCancion.innerText = "Fin de la lista";
+    }
+});
+
+// Buscador
+I.oninput = (e) => {
+    var In = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (In === "") { mostrarGeneros(); return; }
+
+    VistaGeneros.style.display = "none";
+    VistaPlaylist.style.display = "none";
+    VistaBusqueda.style.display = "block";
+    ListaBusqueda.innerHTML = "";
+
+    GEN.forEach((genero, i) => {
+        let nomGen = genero.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (nomGen.includes(In)) {
+            let li = document.createElement('li');
+            li.className = "genre-card";
+            li.onclick = () => abrirCarpeta(i);
+            li.innerHTML = `<div class="genre-emoji">${genero.logo}</div><div class="genre-name">${genero.name}</div>`;
+            ListaBusqueda.appendChild(li);
+        }
+
+        if (genero.canciones) {
+            genero.canciones.forEach((cancion, songIndex) => {
+                let nomCan = cancion.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                if (nomCan.includes(In)) {
+                    let li = document.createElement('li');
+                    li.className = "song-item";
+                    li.style.gridColumn = "span 3"; 
+                    li.setAttribute("data-id", cancion.id); // Identificador para el buscador
+                    li.innerHTML = `<span class="song-title">🎵 ${cancion.name}</span> <span class="genre-badge">${genero.name}</span>`;
+                    li.onclick = () => {
+                        playlistActual = genero.canciones;
+                        codigoCarpetaActual = genero.code;
+                        reproducirCancion(genero.code, cancion, songIndex);
+                    };
+                    ListaBusqueda.appendChild(li);
+                }
+            });
+        }
+    });
+};   
+
+// ✨ LÓGICA DEL REPRODUCTOR CUSTOMIZADO ✨
+
+// Play / Pausa
+function togglePlay() {
+    if (Reproductor.paused) {
+        Reproductor.play();
+    } else {
+        Reproductor.pause();
+    }
+}
+
+// Cambiar el icono de Play/Pausa dependiendo del estado real del audio
+Reproductor.onplay = () => BtnPlay.innerText = "⏸️";
+Reproductor.onpause = () => BtnPlay.innerText = "▶️";
+
+// Formatear segundos a minutos:segundos (ej. 3:05)
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    let min = Math.floor(seconds / 60);
+    let sec = Math.floor(seconds % 60);
+    return min + ":" + (sec < 10 ? "0" + sec : sec);
+}
+
+// Actualizar barra de progreso y tiempo actual
+Reproductor.ontimeupdate = () => {
+    if (!Reproductor.duration) return;
+    ProgressBar.max = Reproductor.duration;
+    ProgressBar.value = Reproductor.currentTime;
+    TimeCurrent.innerText = formatTime(Reproductor.currentTime);
+    TimeTotal.innerText = formatTime(Reproductor.duration);
+};
+
+// Adelantar/Atrasar canción al tocar la barra
+function seekAudio() {
+    Reproductor.currentTime = ProgressBar.value;
+}
+
+// Arrancar Sistema
+indexarCanciones();
