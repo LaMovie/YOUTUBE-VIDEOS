@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎵 MUSIC CLOUD 🎵</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lacquer&display=swap');
+body { 
+   margin: 0;
+   display: flex;
+   flex-direction: column;         
+   background: #000; 
+   font-family: 'Lacquer', cursive;   
+   color: #fff;
+   height: 100vh;
+   overflow: hidden;
+}
+header {
+   text-align: center;
+   padding: 10px 0;
+}
+p.title {
+   color: transparent;
+   background: linear-gradient(to right, red, blue);
+   background-clip: text;
+   -webkit-background-clip: text;
+   filter: saturate(110%);
+   font-size: 24px;
+   margin: 10px 0;
+   cursor: pointer; /* Indica que se puede tocar */
+}
+
+/* Buscador y Botón de Actualizar alineados */
+.search-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+   width: 90%;
+   max-width: 450px;
+   margin: 0 auto;
+}
+#I { 
+   flex: 1;
+   color: gold; 
+   height: 40px;  
+   outline: none;
+   padding: 0 15px;   
+   background: #111; 
+   font-weight: bold; 
+   border-radius: 20px; 
+   border: 2px solid gray; 
+   box-shadow: 0px 0px 15px orange;    
+}
+/* Botón secreto oculto por defecto */
+#BtnSync {
+   display: none; 
+   background: #111;
+   border: 2px solid gray;
+   border-radius: 50%;
+   width: 40px;
+   height: 40px;
+   cursor: pointer;
+   font-size: 16px;
+   align-items: center;
+   justify-content: center;
+   box-shadow: 0px 0px 15px orange;
+   transition: transform 0.3s ease;
+}
+#BtnSync:hover {
+   transform: rotate(180deg);
+}
+.activo::placeholder { color: gray; }
+
+/* Contenedor Principal */
+#MainContent {
+   flex: 1;
+   overflow-y: auto;
+   padding: 15px;
+   padding-bottom: 110px; /* Más espacio para el nuevo reproductor */
+}
+
+/* Diseño de Cuadrícula */
+#Lista, #ListaBusqueda {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0;
+    margin: 0 auto;
+    list-style: none;
+    max-width: 480px;
+}
+
+/* Tarjetas individuales de Géneros */
+.genre-card {
+    background: #121214;
+    border: 1px solid #222;
+    border-radius: 18px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    text-align: center;
+}
+.genre-card:hover {
+    transform: scale(1.04);
+    background: #1a1a1f;
+}
+.genre-emoji {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+.genre-name {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Estilos de las canciones en lista */
+.song-item {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    padding: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1c1c1e;
+    text-align: left;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+.song-item:hover { background: #121214; }
+
+/* ✨ ESTADO ACTIVO: Fucsia Suave ✨ */
+.song-item.active-song {
+    background: #1a081c; /* Fondo muy sutil */
+    border-left: 4px solid #cc4dd6; /* Borde izquierdo para destacar */
+}
+.song-title {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+.song-item.active-song .song-title {
+    color: #cc4dd6; /* Fucsia suave */
+    font-weight: bold;
+}
+.genre-badge { font-size: 11px; color: gray; }
+
+/* Barra del Reproductor */
+#PlayerBar {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   background: #0d0d0f;
+   border-top: 1px solid #222;
+   padding: 15px 0 10px 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   z-index: 100;
+   box-shadow: 0px -5px 20px rgba(0,0,0,0.8);
+}
+#NowPlayingInfo {
+   font-family: system-ui, -apple-system, sans-serif;
+   font-size: 14px;
+   color: #cc4dd6; /* Combina con el color activo */
+   font-weight: bold;
+   margin-bottom: 10px;
+   width: 90%;
+   text-align: center;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+/* ✨ NUEVO: Controles Customizados del Reproductor ✨ */
+.custom-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 450px;
+    gap: 12px;
+}
+#BtnPlay {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    outline: none;
+}
+#ProgressBar {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    background: #333;
+    border-radius: 5px;
+    outline: none;
+}
+#ProgressBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #cc4dd6; /* Fucsia */
+    cursor: pointer;
+}
+.time-display {
+    font-family: monospace;
+    font-size: 12px;
+    color: #888;
+    min-width: 35px;
+    text-align: center;
+}
+
+audio { display: none; } /* Ocultamos el nativo completamente */
+
+.btn-back {
+   background: #222;
+   color: white;
+   border: 1px solid #444;
+   padding: 8px 15px;
+   border-radius: 15px;
+   cursor: pointer;
+   font-weight: bold;
+   margin-bottom: 15px;
+   font-family: system-ui, sans-serif;
+}
+#VistaPlaylist { display: none; }
+#LoadingBox { text-align: center; display: none; padding: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+    <p class="title" onclick="toggleSecret()">🎵 MUSIC CLOUD 🎵</p>
+    <div class="search-container">
+        <input id="I" placeholder="Buscar Género o Canción..." type="text"/>
+        <button id="BtnSync" onclick="removerCache()" title="Sincronizar música nueva">🔄</button>
+    </div>
+</header>
+
+<div id="MainContent">
+    <div id="VistaGeneros">
+        <ul id="Lista"></ul>
+    </div>
+
+    <div id="VistaPlaylist">
+        <button class="btn-back" onclick="mostrarGeneros()">⬅ Volver</button>
+        <h2 id="TituloCarpeta" style="color: gold; margin-top: 0; font-size: 22px;"></h2>
+        <div id="ListaCanciones"></div> 
+    </div>
+
+    <div id="VistaBusqueda" style="display: none;">
+        <ul id="ListaBusqueda"></ul>
+    </div>
+
+    <div id="LoadingBox">
+        <span style="font-family:system-ui; color:gray;">Conectando a pCloud...</span>
+    </div>
+</div>
+
+<div id="PlayerBar">
+    <div id="NowPlayingInfo">Ninguna canción seleccionada</div>
+    
+    <div class="custom-controls">
+        <span id="TimeCurrent" class="time-display">0:00</span>
+        <input type="range" id="ProgressBar" value="0" step="1" min="0" onchange="seekAudio()">
+        <span id="TimeTotal" class="time-display">0:00</span>
+        <button id="BtnPlay" onclick="togglePlay()">▶️</button>
+    </div>
+    
+    <audio id="Player" autoplay></audio>
+</div>
+
+<script>
+var GEN = [
+  {logo: "🇦🇷", name: "CUMBIA", url: "https://u.pcloud.link/publink/show?code=kZffQi5ZEsuLReGBsT8rwldpwogE75rqbDRk"}, 
+  {logo: "🇵🇷", name: "PR CLASSIC", url: "https://u.pcloud.link/publink/show?code=kZCaQi5ZDJzh0KJ1zEFfTR1tNhTmDFD752J7"},
+  {logo: "🕺🏽", name: "CLASICOS", url: "https://u.pcloud.link/publink/show?code=kZl3Qi5ZLBoAC5btaVf3ITQR6AXm5QQlse4y"}, 
+  {logo: "🎹", name: "ALL IN BASS", url: "https://u.pcloud.link/publink/show?code=kZt3Qi5ZMUlbR4jtUsVYotr2hj5yqb7qzFFy"}, 
+  {logo: "🇯🇲", name: "BASS HALL", url: "https://u.pcloud.link/publink/show?code=kZkGQi5ZSVivAi8p8wuHFC3gb72v3p1mtTrk"}, 
+  {logo: "🍹", name: "COCTELITO", url: "https://u.pcloud.link/publink/show?code=kZa4xi5Z7jyPy9hnXQ0A28uvaT2250Jl7Rzk"}, 
+  {logo: "🇨🇺", name: "CUBATON", url: "https://u.pcloud.link/publink/show?code=kZMLxi5ZHSXXOOv2a8R5iCnUuvbqJ8F5qvu7"}, 
+  {logo: "💜", name: "DEL ALMA", url: "https://u.pcloud.link/publink/show?code=kZuIKi5ZYLRmfLRVkg52VKuXc8j4QhYQKYbk"}, 
+  {logo: "💓", name: "DEL ALMA 2", url: "https://u.pcloud.link/publink/show?code=kZsEKi5Z9yFV4rXnm2RK3dygCryPb4SLsVgV"}, 
+  {logo: "🪩", name: "DISCO RETRO", url: "https://u.pcloud.link/publink/show?code=kZkzli5ZIQM6s3GNez59e7zA0TXez0usnWc7"}, 
+  {logo: "🏴‍☠️", name: "DRUM & BASS", url: "https://u.pcloud.link/publink/show?code=kZ0Fli5ZzfFktkCNfay6hvCGE6pdg55tYPny"}, 
+  {logo: "🎭", name: "FREAK", url: "https://u.pcloud.link/publink/show?code=kZtJdi5Zo6p7IEedgULnk9vnfpT7xHjMVy00"}, 
+  {logo: "🖕🏽", name: "FUCK U", url: "https://u.pcloud.link/publink/show?code=kZn0di5ZootYjfkvHSQPEdKb2NfqckJe0WTX"}, 
+  {logo: "🇯🇲", name: "GANJA MUSIC", url: "https://u.pcloud.link/publink/show?code=kZesdi5Z1n9a6KznqgbG9p94WfYC1HjaYBFV"}, 
+  {logo: "👅", name: "GOUSE HOUSE", url: "https://u.pcloud.link/publink/show?code=kZqDVr5Zo9jjxlSXCi7fVB75O9EXEkm6B4ty"}, 
+  {logo: "🇨🇺", name: "MADE IN CUBA", url: "https://u.pcloud.link/publink/show?code=kZKDVr5Z2A051YliNP5KwI3MtnwY7kKXqJ9X"}, 
+  {logo: "😈", name: "MALIANTEO", url: "https://u.pcloud.link/publink/show?code=kZteVr5ZbJ4bl8yc9guTnbU0Qo1kCfnxQBQk"}, 
+  {logo: "🇦🇱", name: "MOOMBA VS TRAP", url: "https://u.pcloud.link/publink/show?code=kZxeVr5ZlN3DTmcatbR9ffgzproPxLH7JX47"}, 
+  {logo: "🇧🇷", name: "OI BRASIL", url: "https://u.pcloud.link/publink/show?code=kZH9Vr5ZyEfPcCJjgebVuFVTx7CNmRMaxCNV"}, 
+  {logo: "🇵🇷", name: "PR DELUXE", url: "https://u.pcloud.link/publink/show?code=kZF9Vr5Z2CH6a0qvPEyzeRiOUAArEQh745EV"}, 
+  {logo: "🇵🇷", name: "REGAETON", url: "https://u.pcloud.link/publink/show?code=kZ19Vr5Z3mx3lG76nmYsGj1I3MP1rztwPbMV"}, 
+  {logo: "🇻🇪", name: "SALSA MIX", url: "https://u.pcloud.link/publink/show?code=kZD9Vr5ZN9gGwnGUJahozq7QIBHAvuDAqzHk"}, 
+  {logo: "🇵🇷", name: "SALSA", url: "https://u.pcloud.link/publink/show?code=kZU9Vr5Z0PpUG58HDAhP3dkXKdX9ep3fsegV"}, 
+  {logo: "🫆", name: "TRAVEL", url: "https://u.pcloud.link/publink/show?code=kZ69Vr5ZLMkL01QGgjS0viJxsqq7lm1Mffs7"}, 
+  {logo: "🔋", name: "ZERO", url: "https://u.pcloud.link/publink/show?code=kZbMVr5ZoqkKSadou24UJHRPi9TACBnCNwGy"}, 
+  {logo: "🎧", name: "MIX", url: "https://u.pcloud.link/publink/show?code=kZe45r5ZgWxWGMtxO5fT1Sxehpdz2SXuNfoV"}, 
+  {logo: "🎹", name: "BASSCITY", url: "https://u.pcloud.link/publink/show?code=kZvd5r5ZDwd6jpAzLNhAY7PHk5ggJ715O3G7"}
+];
+
+let playlistActual = [];
+let indiceActual = 0;
+let codigoCarpetaActual = "";
+
+// Elementos del DOM
+const Reproductor = document.getElementById("Player");
+const InfoCancion = document.getElementById("NowPlayingInfo");
+const I = document.getElementById("I");
+const ListaGeneros = document.getElementById("Lista");
+const ListaCancionesContenedor = document.getElementById("ListaCanciones");
+const VistaGeneros = document.getElementById("VistaGeneros");
+const VistaPlaylist = document.getElementById("VistaPlaylist");
+const VistaBusqueda = document.getElementById("VistaBusqueda");
+const ListaBusqueda = document.getElementById("ListaBusqueda");
+const TituloCarpeta = document.getElementById("TituloCarpeta");
+const LoadingBox = document.getElementById("LoadingBox");
+const BtnSync = document.getElementById("BtnSync");
+
+// Elementos del Reproductor Customizado
+const BtnPlay = document.getElementById("BtnPlay");
+const ProgressBar = document.getElementById("ProgressBar");
+const TimeCurrent = document.getElementById("TimeCurrent");
+const TimeTotal = document.getElementById("TimeTotal");
+
+// ✨ FUNCIÓN SECRETA ✨
+function toggleSecret() {
+    if (BtnSync.style.display === "none" || BtnSync.style.display === "") {
+        BtnSync.style.display = "flex";
+    } else {
+        BtnSync.style.display = "none";
+    }
+}
+
+// 1. Mostrar Cuadrícula Base
+function mostrarGenerosBase() {
+    ListaGeneros.innerHTML = "";
+    GEN.forEach((genero, i) => {
+        let li = document.createElement('li');
+        li.className = "genre-card"; 
+        li.onclick = () => abrirCarpeta(i);
+        li.innerHTML = `
+            <div class="genre-emoji">${genero.logo}</div>
+            <div class="genre-name">${genero.name}</div>
+        `;
+        ListaGeneros.appendChild(li);  
+    });
+}
+
+// 2. Indexación Inteligente con LocalStorage
+async function indexarCanciones() {
+    let cache = localStorage.getItem("music_cloud_cache");
+    if (cache) {
+        GEN = JSON.parse(cache);
+        mostrarGenerosBase();
+        return; 
+    }
+
+    for (let genero of GEN) {
+        try {
+            let urlObj = new URL(genero.url);
+            let code = urlObj.searchParams.get('code');
+            if (!code) continue;
+            genero.code = code;
+
+            let response = await fetch(`https://api.pcloud.com/showpublink?code=${code}`);
+            let data = await response.json();
+            if (data.metadata && data.metadata.contents) {
+                genero.canciones = data.metadata.contents
+                    .filter(f => !f.issubdir)
+                    .map(archivo => ({ name: archivo.name, id: archivo.fileid }));
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    localStorage.setItem("music_cloud_cache", JSON.stringify(GEN));
+    mostrarGenerosBase();
+}
+
+function removerCache() {
+    if(confirm("¿Quieres buscar canciones nuevas en pCloud? Esto recargará tu biblioteca.")) {
+        localStorage.removeItem("music_cloud_cache");
+        location.reload(); 
+    }
+}
+
+function mostrarGeneros() {
+    VistaGeneros.style.display = "block";
+    VistaPlaylist.style.display = "none";
+    VistaBusqueda.style.display = "none";
+    I.value = "";
+}
+
+function abrirCarpeta(indexGenero) {
+    let genero = GEN[indexGenero];
+    if (!genero.canciones) {
+        alert("Indexando datos, aguarda un segundo...");
+        return;
+    }
+
+    VistaGeneros.style.display = "none";
+    VistaBusqueda.style.display = "none";
+    VistaPlaylist.style.display = "block";
+    TituloCarpeta.innerText = `${genero.logo} ${genero.name}`;
+    
+    playlistActual = genero.canciones;
+    codigoCarpetaActual = genero.code;
+
+    ListaCancionesContenedor.innerHTML = "";
+    genero.canciones.forEach((cancion, i) => {
+        let div = document.createElement('div');
+        div.className = "song-item";
+        div.setAttribute("data-id", cancion.id); // Identificador para el Fucsia
+        div.innerHTML = `<span class="song-title">🎵 ${cancion.name}</span>`;
+        div.onclick = () => reproducirCancion(codigoCarpetaActual, cancion, i);
+        ListaCancionesContenedor.appendChild(div);
+    });
+}
+
+// ✨ APLICAR COLOR FUCSIA A LA CANCIÓN ACTIVA ✨
+function marcarCancionActiva(idCancion) {
+    // Le quitamos la clase a todas las canciones renderizadas
+    document.querySelectorAll('.song-item').forEach(el => {
+        el.classList.remove('active-song');
+    });
+    // Se la ponemos solo a la que tenga el ID correcto
+    let cancionActiva = document.querySelector(`.song-item[data-id="${idCancion}"]`);
+    if(cancionActiva) {
+        cancionActiva.classList.add('active-song');
+        // Hacemos scroll suave para que la canción seleccionada esté visible
+        cancionActiva.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+}
+
+async function reproducirCancion(code, cancion, index) {
+    LoadingBox.style.display = "block";
+    InfoCancion.innerText = "Conectando stream...";
+    
+    // Cambiamos el color visualmente de inmediato
+    marcarCancionActiva(cancion.id);
+
+    try {
+        let res = await fetch(`https://api.pcloud.com/getpublinkdownload?code=${code}&fileid=${cancion.id}`);
+        let data = await res.json();
+        if (data.result === 0) {
+            Reproductor.src = "https://" + data.hosts[0] + data.path;
+            Reproductor.play();
+            InfoCancion.innerText = cancion.name;
+            indiceActual = index;
+        }
+    } catch (e) {
+        InfoCancion.innerText = "Error de enlace";
+    }
+    LoadingBox.style.display = "none";
+}
+
+// Salto automático a la siguiente canción
+Reproductor.addEventListener('ended', () => {
+    if (playlistActual && indiceActual < playlistActual.length - 1) {
+        let siguienteIndex = indiceActual + 1;
+        reproducirCancion(codigoCarpetaActual, playlistActual[siguienteIndex], siguienteIndex);
+    } else {
+        InfoCancion.innerText = "Fin de la lista";
+    }
+});
+
+// Buscador
+I.oninput = (e) => {
+    var In = e.target.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (In === "") { mostrarGeneros(); return; }
+
+    VistaGeneros.style.display = "none";
+    VistaPlaylist.style.display = "none";
+    VistaBusqueda.style.display = "block";
+    ListaBusqueda.innerHTML = "";
+
+    GEN.forEach((genero, i) => {
+        let nomGen = genero.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (nomGen.includes(In)) {
+            let li = document.createElement('li');
+            li.className = "genre-card";
+            li.onclick = () => abrirCarpeta(i);
+            li.innerHTML = `<div class="genre-emoji">${genero.logo}</div><div class="genre-name">${genero.name}</div>`;
+            ListaBusqueda.appendChild(li);
+        }
+
+        if (genero.canciones) {
+            genero.canciones.forEach((cancion, songIndex) => {
+                let nomCan = cancion.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                if (nomCan.includes(In)) {
+                    let li = document.createElement('li');
+                    li.className = "song-item";
+                    li.style.gridColumn = "span 3"; 
+                    li.setAttribute("data-id", cancion.id); // Identificador para el buscador
+                    li.innerHTML = `<span class="song-title">🎵 ${cancion.name}</span> <span class="genre-badge">${genero.name}</span>`;
+                    li.onclick = () => {
+                        playlistActual = genero.canciones;
+                        codigoCarpetaActual = genero.code;
+                        reproducirCancion(genero.code, cancion, songIndex);
+                    };
+                    ListaBusqueda.appendChild(li);
+                }
+            });
+        }
+    });
+};   
+
+// ✨ LÓGICA DEL REPRODUCTOR CUSTOMIZADO ✨
+
+// Play / Pausa
+function togglePlay() {
+    if (Reproductor.paused) {
+        Reproductor.play();
+    } else {
+        Reproductor.pause();
+    }
+}
+
+// Cambiar el icono de Play/Pausa dependiendo del estado real del audio
+Reproductor.onplay = () => BtnPlay.innerText = "⏸️";
+Reproductor.onpause = () => BtnPlay.innerText = "▶️";
+
+// Formatear segundos a minutos:segundos (ej. 3:05)
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "0:00";
+    let min = Math.floor(seconds / 60);
+    let sec = Math.floor(seconds % 60);
+    return min + ":" + (sec < 10 ? "0" + sec : sec);
+}
+
+// Actualizar barra de progreso y tiempo actual
+Reproductor.ontimeupdate = () => {
+    if (!Reproductor.duration) return;
+    ProgressBar.max = Reproductor.duration;
+    ProgressBar.value = Reproductor.currentTime;
+    TimeCurrent.innerText = formatTime(Reproductor.currentTime);
+    TimeTotal.innerText = formatTime(Reproductor.duration);
+};
+
+// Adelantar/Atrasar canción al tocar la barra
+function seekAudio() {
+    Reproductor.currentTime = ProgressBar.value;
+}
+
+// Arrancar Sistema
+indexarCanciones();
+</script>
+</body>
+</html>
