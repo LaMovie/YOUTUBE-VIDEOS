@@ -1,231 +1,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Lacquer&display=swap');
 body { 
-   margin: 0;
-   display: flex;
-   flex-direction: column;         
+   display: flex;         
    background: #000; 
-   font-family: 'Lacquer', cursive;   
-   color: #fff;
-   height: 100vh;
-   overflow: hidden;
-}
-header {
-   text-align: center;
-   padding: 10px 0;
-}
-p.title {
-   color: transparent;
-   background: linear-gradient(to right, red, blue);
-   background-clip: text;
-   -webkit-background-clip: text;
-   filter: saturate(110%);
-   font-size: 24px;
-   margin: 10px 0;
-   cursor: pointer; /* Indica que se puede tocar */
-}
-
-/* Buscador y Botón de Actualizar alineados */
-.search-container {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   gap: 10px;
-   width: 90%;
-   max-width: 450px;
-   margin: 0 auto;
+   font-weight: bold;
+   align-items: center; 
+   justify-content: center;  
+   font-family: 'Lacquer', cursive;      
 }
 #I { 
-   flex: 1;
    color: gold; 
-   height: 40px;  
+   height: 5vh;  
    outline: none;
    padding: 0 15px;   
-   background: #111; 
+   background: linear-gradient(to right, red, blue); 
    font-weight: bold; 
    border-radius: 20px; 
    border: 2px solid gray; 
-   box-shadow: 0px 0px 15px orange;    
+   box-shadow: 0px 0px 30px orange;    
 }
-/* Botón secreto oculto por defecto */
-#BtnSync {
-   display: none; 
-   background: #111;
-   border: 2px solid gray;
-   border-radius: 50%;
-   width: 40px;
-   height: 40px;
-   cursor: pointer;
-   font-size: 16px;
-   align-items: center;
-   justify-content: center;
-   box-shadow: 0px 0px 15px orange;
-   transition: transform 0.3s ease;
+#F { 
+   width: 100%; 
+   height: 76vh; 
+   margin-top: 5vh; 
+   background: #fff;
+   filter: invert(100%);
 }
-#BtnSync:hover {
-   transform: rotate(180deg);
+p {
+   color: transparent;
+   background: linear-gradient(to right, red, blue);
+   background-clip: text;
+   filter: saturate(110%);
 }
-.activo::placeholder { color: gray; }
-
-/* Contenedor Principal */
-#MainContent {
-   flex: 1;
-   overflow-y: auto;
-   padding: 15px;
-   padding-bottom: 110px; /* Más espacio para el nuevo reproductor */
-}
-
-/* Diseño de Cuadrícula */
-#Lista, #ListaBusqueda {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 0;
-    margin: 0 auto;
+#Lista {
+    color: gold;
+    font-size: 25px;
     list-style: none;
-    max-width: 480px;
-}
-
-/* Tarjetas individuales de Géneros */
-.genre-card {
-    background: #121214;
-    border: 1px solid #222;
-    border-radius: 18px;
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
+    margin-top: 20px;
+    margin-left: -10vh;
+    font-weight: bold;
     text-align: center;
 }
-.genre-card:hover {
-    transform: scale(1.04);
-    background: #1a1a1f;
+#Lista a:hover {
+    color: #4f9;
 }
-.genre-emoji {
-    font-size: 35px;
-    margin-bottom: 8px;
+.Filtro {
+    display: none;
 }
-.genre-name {
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 13px;
-    color: #ffffff;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+.activo::placeholder { 
+    color: gray; 
 }
-
-/* Estilos de las canciones en lista */
-.song-item {
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 16px;
-    padding: 14px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #1c1c1e;
-    text-align: left;
-    transition: background 0.3s ease, color 0.3s ease;
+#No {
+    scale: 80%;
+    display: none;
+    position: fixed:
 }
-.song-item:hover { background: #121214; }
-
-/* ✨ ESTADO ACTIVO: Fucsia Suave ✨ */
-.song-item.active-song {
-    background: #1a081c; /* Fondo muy sutil */
-    border-left: 4px solid #cc4dd6; /* Borde izquierdo para destacar */
+#BOX {
+    height: 65vh;
+    margin: 5vh 0;
+    display: none;
+    overflow: scroll;
 }
-.song-title {
-    color: #fff;
-    transition: color 0.3s ease;
-}
-.song-item.active-song .song-title {
-    color: #cc4dd6; /* Fucsia suave */
-    font-weight: bold;
-}
-.genre-badge { font-size: 11px; color: gray; }
-
-/* Barra del Reproductor */
-#PlayerBar {
-   position: fixed;
-   bottom: 0;
-   width: 100%;
-   background: #0d0d0f;
-   border-top: 1px solid #222;
-   padding: 15px 0 10px 0;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   z-index: 100;
-   box-shadow: 0px -5px 20px rgba(0,0,0,0.8);
-}
-#NowPlayingInfo {
-   font-family: system-ui, -apple-system, sans-serif;
-   font-size: 14px;
-   color: #cc4dd6; /* Combina con el color activo */
-   font-weight: bold;
-   margin-bottom: 10px;
-   width: 90%;
-   text-align: center;
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-}
-
-/* ✨ NUEVO: Controles Customizados del Reproductor ✨ */
-.custom-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    max-width: 450px;
-    gap: 12px;
-}
-#BtnPlay {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 28px;
-    cursor: pointer;
-    outline: none;
-}
-#ProgressBar {
-    flex: 1;
-    height: 4px;
-    -webkit-appearance: none;
-    background: #333;
-    border-radius: 5px;
-    outline: none;
-}
-#ProgressBar::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #cc4dd6; /* Fucsia */
-    cursor: pointer;
-}
-.time-display {
-    font-family: monospace;
-    font-size: 12px;
-    color: #888;
-    min-width: 35px;
-    text-align: center;
-}
-
-audio { display: none; } /* Ocultamos el nativo completamente */
-
-.btn-back {
-   background: #222;
-   color: white;
-   border: 1px solid #444;
-   padding: 8px 15px;
-   border-radius: 15px;
-   cursor: pointer;
-   font-weight: bold;
-   margin-bottom: 15px;
-   font-family: system-ui, sans-serif;
-}
-#VistaPlaylist { display: none; }
-#LoadingBox { text-align: center; display: none; padding: 20px; }
