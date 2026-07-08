@@ -77,6 +77,13 @@ var GEN = [
   BOX.style.display = "none";
  I.placeholder = match.textContent;
      I.classList.add('activo');
+     F.style.background = 'url(Loading.gif)';
+  F.style.backgroundSize = '70%';
+  F.style.backgroundPosition = '50% 60%';
+  F.style.backgroundRepeat = 'no-repeat';
+    setTimeout(() => {
+       F.style.background = '';
+  }, 1500); 
          } else {
           I.value = '';
   BOX.style.display = 'none'; 
@@ -95,6 +102,13 @@ var GEN = [
         I.value = "";
      BOX.style.display = "none";
         I.placeholder = Titulo;
-        I.classList.add('activo');
+        I.classList.add('activo'); 
+        F.style.background = 'url(Loading.gif)';
+        F.style.backgroundSize = '70%';
+        F.style.backgroundPosition = '50% 60%';
+        F.style.backgroundRepeat = 'no-repeat';
+    setTimeout(() => {
+       F.style.background = '';
+  }, 1500); 
      }
  };
