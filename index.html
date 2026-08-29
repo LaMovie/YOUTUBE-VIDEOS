@@ -6,58 +6,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOUTUBE MUSIC</title>  
 <style>
-body{
-   background: black;
-   font-family: sans-sarif;
-}
-.contenedor{
-   margin-top: 5vh;   
-   display: grid;
-   flex-direction: row; 
-   justify-content: center;
-   align-items: center;
-}
-.contenedor img{
-    width: 20%;
-    height: auto;
-    background: orange;
-    transition: 1.5s;
-    border-radius: 20px;
-}
-.contenedor img:hover{    
-    transform: scale(2) perspective(500px)rotateY(50deg);
-    padding-left: 10px;
-    box-sizing: border-box;
-    box-shadow: 0 0 30px black;
-    border: 2px solid green;  
-    transition: 1s;  
-}  
 :root {
     --primary : linear-gradient(to bottom right, #0a0057, #3f00ee);
     --secondary : gold;
     --text : #fff;
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-@media screen and (max-width: 990px) {
-.container {
-        grid-template-columns: 1fr;
-}
+body {
+    width: 100%;
+    max-width: 600px; 
+    height: 100vh; /* Ocupa el alto exacto de la pantalla */
+    overflow: hidden; /* Bloquea el scroll general de la página */
+    margin: 0 auto;
+    background: black;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 #Video {
-    width: 100%;
+    width: 95%;
+    max-width: 550px;
     margin-top: 3vh;    
-    height: 30vh;
+    height: 35vh; /* Misma altura funcional de Drive */
     border-radius: 10px;
-    background: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEinuR3l58e9MiWP_hDFssCF5NqAMMhF-rPxTJychbQR8ViB2Y2msjtuYetE3Apf43IQe_mqNG5_8I-HKQbkf-GvRtenXE5fDLEH8kn0wmvBX7MBwtFIvHusDIsB14x1XdAYcay-AqPgXamUKOYE2JVKUEkO1if0bBhsYrpZL1qbpqw5UDhNubuehQzMgng/s498/image_downloader_1700646861820.gif);
+    background: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEinuR3l58e9MiWP_hDFssCF5NqAMMhF-rPxTJychbQR8ViB2Y2msjtuYetE3Apf43IQe_mqNG5_8I-HKQbkf-GvRtenXE5fDLEH8kn0wmvBX7MBwtFIvHusDIsB14x1XdAYcay-AqPgXamUKOYE2JVKUEkO1if0bBhsYrpZL1qbpqw5UDhNubuehQzMgng/s498/image_downloader_1700646861820.gif) center/cover;
+}
+.contenedor {
+    margin-top: 2vh; /* Acercamos un poco la lista al video */
+    width: 95%;
+    height: 55vh; /* Altura calculada para que no empuje la pantalla */
+    overflow-y: auto; /* Activa el scroll interno solo para la lista */
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+    justify-items: center; 
+    padding: 10px;
+    padding-bottom: 30px; /* Espacio extra al final para que el último elemento no se corte */
+    box-sizing: border-box;
+}
+.contenedor h2 {
+    display: contents; /* Permite que los enlaces e imágenes hereden el grid saltándose el h2 */
+}
+.contenedor a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.contenedor img {
+    width: 100%;
+    max-width: 130px; /* Pone un tope de tamaño a las imágenes */
+    height: auto;
+    aspect-ratio: 1/1; /* Mantiene proporciones intactas */
+    object-fit: cover;
+    background: orange;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+.contenedor img:hover {    
+    transform: scale(1.1); /* Efecto de zoom controlado que no rompe la cuadrícula */
+    box-sizing: border-box;
+    box-shadow: 0 0 20px black;
+    border: 2px solid green;  
+} 
+
+@media screen and (max-width: 990px) {
+  .container {
+        grid-template-columns: 1fr;
+  }
 }
 </style>
-
-<style>body{-webkit-animation:puff-in-hor 1s cubic-bezier(.47,0,.745,.715) both;animation:puff-in-hor 1.5s cubic-bezier(.47,0,.745,.715) both}@-webkit-keyframes puff-in-hor{0%{-webkit-transform:scaleX(2);transform:scaleX(2);-webkit-filter:blur(4px);filter:blur(4px);opacity:0}100%{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-filter:blur(0px);filter:blur(0px);opacity:1}}@keyframes puff-in-hor{0%{-webkit-transform:scaleX(2);transform:scaleX(2);-webkit-filter:blur(4px);filter:blur(4px);opacity:0}100%{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-filter:blur(0px);filter:blur(0px);opacity:1}}</style>
+<style>
+body{-webkit-animation:puff-in-hor 1s cubic-bezier(.47,0,.745,.715) both;animation:puff-in-hor 1.5s cubic-bezier(.47,0,.745,.715) both}@-webkit-keyframes puff-in-hor{0%{-webkit-transform:scaleX(2);transform:scaleX(2);-webkit-filter:blur(4px);filter:blur(4px);opacity:0}100%{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-filter:blur(0px);filter:blur(0px);opacity:1}}@keyframes puff-in-hor{0%{-webkit-transform:scaleX(2);transform:scaleX(2);-webkit-filter:blur(4px);filter:blur(4px);opacity:0}100%{-webkit-transform:scaleX(1);transform:scaleX(1);-webkit-filter:blur(0px);filter:blur(0px);opacity:1}}</style>
 </head>
 <body>      
              <center>
