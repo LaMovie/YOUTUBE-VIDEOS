@@ -71,7 +71,7 @@ body {
     border-radius: 20px;
 }
 .contenedor img:hover {    
-    transform: scale(1.1); /* Efecto de zoom controlado que no rompe la cuadrícula */
+ /* transform: scale(1.1);  Efecto de zoom controlado que no rompe la cuadrícula */
     box-sizing: border-box;
     box-shadow: 0 0 20px black;
     border: 2px solid green;  
@@ -177,9 +177,22 @@ if (!name.includes('MUSIC-CLOUD')) {
    window.location.href = url;
        }     
           T.textContent = name;
+          
+        CNT.forEach(other => {
+ other.style.scale = '1';
+ other.style.transform = 'none';
+ other.style.filter = 'none';
+ other.style.border = 'none';
+ other.style.boxShadow = 'none';
+        });    
+      
+     cn.style.scale = '1.1';
+     cn.style.transform = 'rotate(20deg)';
+     cn.style.filter = 'hue-rotate(90deg)';      
+ cn.style.border = '2px solid #f90'; 
+ cn.style.boxShadow = '10px 10px 20px #00f';          
      }
- }); 
-       
+ });        
 </script>    
 </body>
 </html>
